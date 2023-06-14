@@ -1,0 +1,24 @@
+.TripPlanner {
+    display: flex;
+    max-height: 400px;
+    overflow-y: auto;
+
+}
+
+.dotArea {
+    width: 80px;
+    margin-top: 26px;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.inputArea {
+    width: 100%;
+}
+
+.plus {
+    margin-top: 26px;
+}

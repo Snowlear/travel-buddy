@@ -1,0 +1,26 @@
+.searchPage {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 36px;
+}
+
+.formItems {
+    display: flex;
+    gap:83px
+}
+
+.leftInput {
+    flex: 2;
+    padding-top: 24px;
+}
+
+.rightInputs {
+    flex: 1;
+    padding-top: 24px;
+}
+
+.controlGroup {
+    display: flex;
+    justify-content: center;
+}
