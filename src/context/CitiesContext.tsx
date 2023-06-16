@@ -1,6 +1,11 @@
-import React, { useContext } from 'react';
-import { City } from '../types/City';
-import { searchCities, calculateDistances, isValidCity, getCities } from '../api/fakeApi';
+import React, { useContext } from "react";
+import { City } from "../types/City";
+import {
+  searchCities,
+  calculateDistances,
+  isValidCity,
+  getCities,
+} from "../api/fakeApi";
 
 interface CitiesContextType {
   cities: City[];
@@ -40,6 +45,5 @@ const CitiesContext = React.createContext<CitiesContextType>({
 
 const useCitiesContext = (): CitiesContextType =>
   useContext(CitiesContext) as CitiesContextType;
-
 
 export { CitiesProvider, useCitiesContext };

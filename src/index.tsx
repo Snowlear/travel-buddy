@@ -1,13 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import './staticStyles/fonts.css';
-import reportWebVitals from './reportWebVitals';
-import MainFrameTemplate from './components/templates/MainFrameTemplate/MainFrameTemplate';
-import AppRouter from './router/router';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import "./staticStyles/fonts.css";
+import reportWebVitals from "./reportWebVitals";
+import MainFrameTemplate from "./components/templates/MainFrameTemplate/MainFrameTemplate";
+import AppRouter from "./router/router";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>

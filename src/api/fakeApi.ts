@@ -35,7 +35,7 @@ export const searchCities = async (keyword: string) => {
 
 export const isValidCity = async (input: string) => {
   await new Promise((resolve) => setTimeout(resolve, DELAY));
-  return CITIES.some((city) => city.name === input)
+  return CITIES.some((city) => city.name === input);
 };
 
 export const calculateDistances = async (cities: City[]) => {

@@ -4,7 +4,7 @@ export const isObjectOfArraysOfStrings = (obj: any) => {
       !Array.isArray(value) ||
       !value.every((item) => typeof item === "string")
     ) {
-      return false;     
+      return false;
     }
   }
   return true;
@@ -12,4 +12,4 @@ export const isObjectOfArraysOfStrings = (obj: any) => {
 
 export const sumArray = (numbers: number[]) => {
   return numbers.reduce((sum, num) => sum + num, 0);
-}
+};

@@ -6,7 +6,7 @@
   font-weight: 500;
   border-radius: 6px;
   flex: 1;
-  font-family: 'Inter';
+  font-family: "Inter";
 }
 
 .inputTag:focus {

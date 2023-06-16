@@ -11,7 +11,10 @@ const AppRouter = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" Component={SearchPage} />
-          <Route path="/results/:passengerCount?:tripDate?:tripDestinations?" Component={ResultsPage} />
+          <Route
+            path="/results/:passengerCount?:tripDate?:tripDestinations?"
+            Component={ResultsPage}
+          />
           <Route path="*" Component={NotFoundPage} />
         </Routes>
       </BrowserRouter>

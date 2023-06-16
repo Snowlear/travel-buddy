@@ -17,9 +17,7 @@ const ArrowBubble: React.FC<ArrowBubbleProps> = ({
   return (
     <div
       tabIndex={0}
-      className={classnames(
-        styles.arrowBubble,
-        styles[direction], {
+      className={classnames(styles.arrowBubble, styles[direction], {
         [styles.relativeView]: isRelative,
       })}
     >

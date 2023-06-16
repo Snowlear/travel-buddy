@@ -20,7 +20,11 @@ interface TripPlannerProps {
   setDestinations: (input: DestinationSelection[]) => void;
 }
 
-const TripPlanner: React.FC<TripPlannerProps> = ({ setIsValid, destinations, setDestinations }) => {
+const TripPlanner: React.FC<TripPlannerProps> = ({
+  setIsValid,
+  destinations,
+  setDestinations,
+}) => {
   const { searchCities } = useCitiesContext();
   const setDestination = (
     input: string,
@@ -108,7 +112,10 @@ const TripPlanner: React.FC<TripPlannerProps> = ({ setIsValid, destinations, set
                   key={"suggestedCity_" + city.name}
                   onClick={() => {
                     setDestination(city.name, destinations.indexOf(value));
-                    setDestinationSuggestions(undefined, destinations.indexOf(value));
+                    setDestinationSuggestions(
+                      undefined,
+                      destinations.indexOf(value)
+                    );
                   }}
                   className={styles.suggestedCity}
                 >

@@ -21,9 +21,7 @@ const ResultsPage: React.FC = () => {
   const passengerCount = searchParams.get("passengerCount");
   const tripDate = searchParams.get("tripDate");
   const tripDestinations = searchParams.get("tripDestinations");
-  const [destinations] = useState<string[]>(
-    JSON.parse(tripDestinations!)
-  );
+  const [destinations] = useState<string[]>(JSON.parse(tripDestinations!));
   const { getCities, isValidCity, calculateDistances } = useCitiesContext();
   const isParametersValid = () => {
     if (tripDate && passengerCount && tripDestinations) {
@@ -117,7 +115,11 @@ const ResultsPage: React.FC = () => {
                       );
                     }
                     return (
-                        <img alt="3dots" key={"dotsOf" + idx} src={ThreeDots}></img>
+                      <img
+                        alt="3dots"
+                        key={"dotsOf" + idx}
+                        src={ThreeDots}
+                      ></img>
                     );
                   })}
                 </div>

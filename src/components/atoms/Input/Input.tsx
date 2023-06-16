@@ -84,9 +84,10 @@ const Input: React.FC<InputProps> = ({
               src={X}
             ></img>
           )}
-          {value.length > 0 && bubbleContent && isPopOpen && type === "text" && (
-            <Bubble>{bubbleContent}</Bubble>
-          )}
+          {value.length > 0 &&
+            bubbleContent &&
+            isPopOpen &&
+            type === "text" && <Bubble>{bubbleContent}</Bubble>}
         </div>
         {onDestroy && (
           <img

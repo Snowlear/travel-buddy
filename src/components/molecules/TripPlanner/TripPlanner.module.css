@@ -1,28 +1,27 @@
 .TripPlanner {
-    display: flex;
-    max-height: 400px;
-
+  display: flex;
+  max-height: 400px;
 }
 
 .dotArea {
-    width: 80px;
-    margin-top: 26px;
-    margin-left: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
+  width: 80px;
+  margin-top: 26px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
 }
 
 .inputArea {
-    width: 100%;
+  width: 100%;
 }
 
 .plus {
-    margin-top: 26px;
+  margin-top: 26px;
 }
 
 .suggestedCity {
-    margin-left: 10px;
-    cursor: pointer;
+  margin-left: 10px;
+  cursor: pointer;
 }

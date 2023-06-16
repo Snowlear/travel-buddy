@@ -1,15 +1,21 @@
-import React from 'react';
+import React from "react";
 import styles from "./Button.module.css";
 
 interface ButtonProps {
-    children: React.ReactNode;
-    onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-    disabled?: boolean;
+  children: React.ReactNode;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  disabled?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ children, disabled = false, onClick }) => {
+const Button: React.FC<ButtonProps> = ({
+  children,
+  disabled = false,
+  onClick,
+}) => {
   return (
-    <button onClick={onClick} className={styles.button} disabled={disabled}>{children}</button>
+    <button onClick={onClick} className={styles.button} disabled={disabled}>
+      {children}
+    </button>
   );
 };
 
