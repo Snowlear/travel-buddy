@@ -5,6 +5,8 @@
   border: 1px solid #e5e7eb;
   font-weight: 500;
   border-radius: 6px;
+  flex: 1;
+  font-family: 'Inter';
 }
 
 .inputTag:focus {
@@ -19,7 +21,6 @@
   font-weight: 500;
   line-height: 16px;
   padding-bottom: 20px;
-  width: 100%;
 }
 
 .invalidInput {
@@ -28,8 +29,8 @@
 }
 
 .errorLabel {
-    position: absolute;
-    bottom: 2px;
+  position: absolute;
+  bottom: 2px;
   padding-top: 2px;
   color: #ff0000;
 }
@@ -39,12 +40,13 @@
 }
 
 .input_number {
-    width: 100px;
+  width: 100px;
 }
 
 .inputTag_number {
-    padding-left: 20px;
-    text-align: center;
+  padding-left: 26px;
+  text-align: center;
+  width: 100%;
 }
 
 .input_number::-webkit-outer-spin-button,
@@ -53,18 +55,45 @@
   margin: 0;
 }
 
-.input_number[type=number] {
+.input_number[type="number"] {
   -moz-appearance: textfield;
 }
 
 .minusButton {
-    position: absolute;
-    top: 24px;
-    left: 5px;
+  position: absolute;
+  top: 24px;
+  left: 5px;
 }
 
 .plusButton {
-    position: absolute;
-    top: 24px;
-    right: 5px;
+  position: absolute;
+  top: 24px;
+  right: 5px;
+}
+
+.clearButton {
+  position: absolute;
+  right: 4px;
+  top: 5px;
+}
+.clearButton:hover {
+  cursor: pointer;
+}
+
+.inputField {
+  display: flex;
+}
+
+.inputDialog {
+  position: relative;
+  display: flex;
+  flex: 1;
+}
+
+.removeButton {
+  padding-left: 10px;
+}
+
+.removeButton:hover {
+  cursor: pointer;
 }

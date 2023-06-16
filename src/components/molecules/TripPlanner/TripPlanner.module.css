@@ -1,7 +1,6 @@
 .TripPlanner {
     display: flex;
     max-height: 400px;
-    overflow-y: auto;
 
 }
 
@@ -21,4 +20,9 @@
 
 .plus {
     margin-top: 26px;
+}
+
+.suggestedCity {
+    margin-left: 10px;
+    cursor: pointer;
 }

@@ -33,6 +33,11 @@ export const searchCities = async (keyword: string) => {
   );
 };
 
+export const isValidCity = async (input: string) => {
+  await new Promise((resolve) => setTimeout(resolve, DELAY));
+  return CITIES.some((city) => city.name === input)
+};
+
 export const calculateDistances = async (cities: City[]) => {
   await new Promise((resolve) => setTimeout(resolve, DELAY));
   const distances = [];
@@ -40,4 +45,13 @@ export const calculateDistances = async (cities: City[]) => {
     distances.push(haversineDistance(cities[i], cities[i + 1]));
   }
   return distances;
+};
+
+export const getCities = async (cityNames: string[]) => {
+  await new Promise((resolve) => setTimeout(resolve, DELAY));
+  const cities = CITIES.filter((city) => cityNames.includes(city.name));
+  if (cities.length !== cityNames.length) {
+    throw new Error("One or more cities not found");
+  }
+  return cities;
 };

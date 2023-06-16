@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styles from "./TripPlanner.module.css";
 import Input from "../../atoms/Input/Input";
 import Dot from "../../../assets/images/svgs/ellipse.svg";
@@ -12,16 +12,15 @@ import {
   exampleDestinationSelection,
 } from "../../../types/DestinationSelection";
 import Link from "../../atoms/Link/Link";
+import { City } from "../../../types/City";
 
 interface TripPlannerProps {
   setIsValid: (input: boolean) => void;
+  destinations: DestinationSelection[];
+  setDestinations: (input: DestinationSelection[]) => void;
 }
 
-const TripPlanner: React.FC<TripPlannerProps> = ({ setIsValid }) => {
-  const [destinations, setDestinations] = useState<DestinationSelection[]>([
-    { ...exampleDestinationSelection },
-    { ...exampleDestinationSelection },
-  ]);
+const TripPlanner: React.FC<TripPlannerProps> = ({ setIsValid, destinations, setDestinations }) => {
   const { searchCities } = useCitiesContext();
   const setDestination = (
     input: string,
@@ -37,9 +36,24 @@ const TripPlanner: React.FC<TripPlannerProps> = ({ setIsValid }) => {
     setDestinations([...destinations, { ...exampleDestinationSelection }]);
   };
 
+  const removeDestination = (index: number) => {
+    let currentDestinations = [...destinations];
+    currentDestinations.splice(index, 1);
+    setDestinations(currentDestinations);
+  };
+
   const setDestinationValidity = (input: boolean, index: number) => {
     let currentDestinations = [...destinations];
     currentDestinations[index].isValid = input;
+    setDestinations(currentDestinations);
+  };
+
+  const setDestinationSuggestions = (
+    input: City[] | undefined,
+    index: number
+  ) => {
+    let currentDestinations = [...destinations];
+    currentDestinations[index].suggestions = input;
     setDestinations(currentDestinations);
   };
 
@@ -66,13 +80,67 @@ const TripPlanner: React.FC<TripPlannerProps> = ({ setIsValid }) => {
     );
   }, [destinations, setIsValid]);
 
+  const handleDestinationSuggestions = (idx: number) => {
+    if (destinations[idx].name.trim().length > 0) {
+      searchCities(destinations[idx].name).then((result) => {
+        setDestinationSuggestions(result, idx);
+      });
+    } else {
+      setDestinationSuggestions(undefined, idx);
+    }
+  };
+
+  const handleBubbleContent = (
+    value: DestinationSelection
+  ): React.ReactNode | undefined => {
+    if (value.suggestions) {
+      const isEmpty = value.suggestions?.length === 0;
+
+      return (
+        <>
+          {isEmpty ? (
+            <p>No result found.</p>
+          ) : (
+            value.suggestions &&
+            value.suggestions.map((city) => {
+              return (
+                <p
+                  key={"suggestedCity_" + city.name}
+                  onClick={() => {
+                    setDestination(city.name, destinations.indexOf(value));
+                    setDestinationSuggestions(undefined, destinations.indexOf(value));
+                  }}
+                  className={styles.suggestedCity}
+                >
+                  {city.name}
+                </p>
+              );
+            })
+          )}
+        </>
+      );
+    } else {
+      return undefined;
+    }
+  };
+
   return (
     <div className={styles.TripPlanner}>
       <div className={styles.dotArea}>
         {[...Array(destinations.length - 1)].map((e, i) => (
-          <React.Fragment key={"dotsOf"+i}>
-            <img key={"dotsOf"+i} className={styles.dot} alt="dot" src={Dot}></img>
-            <img key={"lineOf"+i} className={styles.dot} alt="line" src={Line}></img>
+          <React.Fragment key={"dotsOf" + i}>
+            <img
+              key={"dotsOf" + i}
+              className={styles.dot}
+              alt="dot"
+              src={Dot}
+            ></img>
+            <img
+              key={"lineOf" + i}
+              className={styles.dot}
+              alt="line"
+              src={Line}
+            ></img>
           </React.Fragment>
         ))}
 
@@ -81,23 +149,41 @@ const TripPlanner: React.FC<TripPlannerProps> = ({ setIsValid }) => {
       </div>
       <div className={styles.inputArea}>
         {destinations.map((destination, idx) => (
-          <Input
-            key={idx + "_dest"}
-            isValid={destination.isValid}
-            onBlur={() => checkDestination(destination, idx)}
-            onChange={(e) =>
-              setDestination(upperCaseFirst(e.target.value), idx)
-            }
-            value={destination.name}
-            error={
-              destination.error && destination.error.length > 0
-                ? destination.error
-                : undefined
-            }
-            label={idx === 0 ? "City of Origin" : "City of Destination"}
-          />
+          <div className={styles.inputContainer} key={idx + "_dest"}>
+            <Input
+              onBlur={() => checkDestination(destination, idx)}
+              onChange={(e) => {
+                setDestination(upperCaseFirst(e.target.value), idx);
+                handleDestinationSuggestions(idx);
+              }}
+              bubbleContent={handleBubbleContent(destination)}
+              onClear={() => {
+                setDestination("", idx);
+                checkDestination(destination, idx);
+              }}
+              onDestroy={
+                destinations.length > 2 && idx > 0
+                  ? () => {
+                      removeDestination(idx);
+                    }
+                  : undefined
+              }
+              value={destination.name}
+              error={
+                destination.error && destination.error.length > 0
+                  ? destination.error
+                  : undefined
+              }
+              label={idx === 0 ? "City of Origin" : "City of Destination"}
+            />
+          </div>
         ))}
-        <Link onClick={() => {addDestination()}} label={"Add destination"}/>
+        <Link
+          onClick={() => {
+            addDestination();
+          }}
+          label={"Add destination"}
+        />
       </div>
     </div>
   );

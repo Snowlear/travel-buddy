@@ -9,3 +9,7 @@ export const isObjectOfArraysOfStrings = (obj: any) => {
   }
   return true;
 };
+
+export const sumArray = (numbers: number[]) => {
+  return numbers.reduce((sum, num) => sum + num, 0);
+}

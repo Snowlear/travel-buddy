@@ -3,3 +3,8 @@ export interface City {
   latitude: number;
   longitude: number;
 }
+
+export interface CityDistanceData {
+  totalDistance?: number;
+  distanceBetween?: number[];
+}
