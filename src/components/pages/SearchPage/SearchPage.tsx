@@ -5,8 +5,10 @@ import TripPlanner from "../../molecules/TripPlanner/TripPlanner";
 import Input from "../../atoms/Input/Input";
 import { DestinationSelection, exampleDestinationSelection } from "../../../types/DestinationSelection";
 import { toDMYOrder } from "../../../utils/date";
+import { useNavigate } from "react-router-dom";
 
 const SearchPage: React.FC = () => {
+  const navigate = useNavigate();
   const [isDestinationsValid, setIsDestinationsValid] = useState(false);
   const [destinations, setDestinations] = useState<DestinationSelection[]>([
     { ...exampleDestinationSelection },
@@ -42,7 +44,7 @@ const SearchPage: React.FC = () => {
         </div>
       </div>
       <div className={styles.controlGroup}>
-        <Button onClick={() => window.open(`results?passengerCount=${passengerCount}&tripDate=${toDMYOrder(date)}&tripDestinations=${JSON.stringify(destinations.map(item => item.name))}`, "_blank")} disabled={!isFormValid}>Submit</Button>
+        <Button onClick={() => navigate(`results?passengerCount=${passengerCount}&tripDate=${toDMYOrder(date)}&tripDestinations=${JSON.stringify(destinations.map(item => item.name))}`)} disabled={!isFormValid}>Submit</Button>
       </div>
     </div>
   );

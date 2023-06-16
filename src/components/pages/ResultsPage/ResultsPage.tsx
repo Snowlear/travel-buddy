@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./ResultsPage.module.css";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { isObjectOfArraysOfStrings, sumArray } from "../../../utils/array";
 import Button from "../../atoms/Button/Button";
 import { formatDate } from "../../../utils/date";
@@ -10,10 +10,10 @@ import { useCitiesContext } from "../../../context/CitiesContext";
 import { roundNumber } from "../../../utils/number";
 import ArrowBubble from "../../atoms/ArrowBubble/ArrowBubble";
 import LocationTag from "../../../assets/images/svgs/locationTag.svg";
-import Dot from "../../../assets/images/svgs/ellipse.svg";
 import ThreeDots from "../../../assets/images/svgs/3dots.svg";
 
 const ResultsPage: React.FC = () => {
+  const navigate = useNavigate();
   const [distancesData, setDistancesData] = useState<CityDistanceData>();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>();
@@ -151,7 +151,7 @@ const ResultsPage: React.FC = () => {
         <p>Your search is invalid.</p>
       )}
       <div className={styles.controlGroup}>
-        <Button onClick={() => window.open(`../`, "_dest")}>Back</Button>
+        <Button onClick={() => navigate(`../`)}>Back</Button>
       </div>
     </div>
   );
