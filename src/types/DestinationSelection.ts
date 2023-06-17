@@ -5,6 +5,7 @@ export interface DestinationSelection {
   error?: string;
   suggestions?: City[];
   isValid: boolean;
+  isSuggestedSelected?: boolean;
 }
 
 export const exampleDestinationSelection = { name: "", isValid: false };

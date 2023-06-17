@@ -7,24 +7,77 @@ import {
   DestinationSelection,
   exampleDestinationSelection,
 } from "../../../types/DestinationSelection";
-import { toDMYOrder } from "../../../utils/date";
-import { useNavigate } from "react-router-dom";
+import { isDMY, isYMD, toDMYOrder, toYMDOrder } from "../../../utils/date";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { isObjectOfArraysOfStrings } from "../../../utils/array";
+import { useCitiesContext } from "../../../context/CitiesContext";
 
 const SearchPage: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const intitialEmptyDestSelection = [
+    { ...exampleDestinationSelection },
+    { ...exampleDestinationSelection },
+  ];
+  const initialPassengerCount = Number(searchParams.get("passengerCount")) || 0;
+  const intialTripDate = searchParams.get("tripDate") || "";
+  const tripDestinations = searchParams.get("tripDestinations") || "";
   const navigate = useNavigate();
+  const handleInitialDate = (input: string) => {
+    if (isYMD(input)) {
+      return input;
+    } else if (isDMY(input)) {
+      return toYMDOrder(input);
+    }
+    return "";
+  };
+
+  const prepareDestinations = (
+    paramDestinationsRaw: string
+  ): DestinationSelection[] => {
+    try {
+      if (paramDestinationsRaw) {
+        const paramDestinations: string[] = JSON.parse(paramDestinationsRaw);
+        if(paramDestinations.length < 2) {
+          return intitialEmptyDestSelection;
+        }
+        return paramDestinations.map((item): DestinationSelection => {
+          return { name: item, isValid: false };
+        });
+      } else {
+        return intitialEmptyDestSelection;
+      }
+    } catch (e) {
+      return intitialEmptyDestSelection;
+    }
+  };
+
   const [isDestinationsValid, setIsDestinationsValid] = useState(false);
-  const [destinations, setDestinations] = useState<DestinationSelection[]>([
-    { ...exampleDestinationSelection },
-    { ...exampleDestinationSelection },
-  ]);
+  const [destinations, setDestinations] = useState<DestinationSelection[]>(
+    prepareDestinations(tripDestinations)
+  );
   const [isFormValid, setIsFormValid] = useState(false);
-  const [passengerCount, setPassengerCount] = useState(0);
-  const [date, setDate] = useState("");
+  const [passengerCount, setPassengerCount] = useState(initialPassengerCount);
+  const [date, setDate] = useState(handleInitialDate(intialTripDate));
   useEffect(() => {
     setIsFormValid(
       isDestinationsValid && passengerCount > 0 && date.length > 0
     );
   }, [date.length, isDestinationsValid, passengerCount]);
+
+  useEffect(() => {
+    // debouncing query update
+    const timeoutId = setTimeout(() => {
+      navigate(
+        `?passengerCount=${passengerCount}&tripDate=${toDMYOrder(
+          date
+        )}&tripDestinations=${JSON.stringify(
+          destinations.map((item) => item.name)
+        )}`
+      );
+    }, 100);
+    return () => clearTimeout(timeoutId);
+  }, [navigate, passengerCount, date, destinations]);
+
   return (
     <div className={styles.searchPage}>
       <div className={styles.formItems}>

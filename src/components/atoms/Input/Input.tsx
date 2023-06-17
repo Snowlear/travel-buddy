@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./Input.module.css";
 import classnames from "classnames";
 import Plus from "../../../assets/images/svgs/mini_plus.svg";
@@ -13,7 +13,6 @@ interface InputProps {
   value: string;
   type?: React.HTMLInputTypeAttribute;
   error?: string;
-  isValid?: boolean;
   className?: string;
   bubbleContent?: React.ReactNode | undefined;
   onFocus?: React.FocusEventHandler<HTMLInputElement>;
@@ -38,6 +37,7 @@ const Input: React.FC<InputProps> = ({
   onDestroy,
   type = "text",
 }) => {
+  
   const [isPopOpen, setIsPopOpen] = useState<boolean>(false);
   const inputWrapper = useRef<HTMLDivElement>(null);
   const handleOnBlur = (e: React.FocusEvent<HTMLInputElement, Element>) => {
@@ -49,6 +49,7 @@ const Input: React.FC<InputProps> = ({
     }
     onBlur && onBlur(e);
   };
+
   return (
     <div
       onFocus={() => setIsPopOpen(true)}

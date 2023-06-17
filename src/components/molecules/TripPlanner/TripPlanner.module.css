@@ -18,10 +18,14 @@
 }
 
 .plus {
-  margin-top: 26px;
+    margin-top: 30px;
 }
 
 .suggestedCity {
   margin-left: 10px;
   cursor: pointer;
 }
+
+.bubbleInfo {
+    margin-left: 10px;
+  }

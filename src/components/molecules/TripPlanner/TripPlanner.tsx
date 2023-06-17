@@ -29,10 +29,18 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
   const setDestination = (
     input: string,
     index: number,
-    key: "name" | "error" = "name"
+    key: "name" | "error" = "name",
+    isSuggestedSelected: boolean | undefined = undefined
   ) => {
     let currentDestinations = [...destinations];
     currentDestinations[index][key] = input;
+    currentDestinations[index].isSuggestedSelected = isSuggestedSelected;
+    setDestinations(currentDestinations);
+  };
+
+  const setDestinationIsSuggestedSelected = (input: boolean, index: number) => {
+    let currentDestinations = [...destinations];
+    currentDestinations[index].isSuggestedSelected = input;
     setDestinations(currentDestinations);
   };
 
@@ -97,13 +105,15 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
   const handleBubbleContent = (
     value: DestinationSelection
   ): React.ReactNode | undefined => {
+    if (value.isSuggestedSelected || value.isValid) {
+      return;
+    }
     if (value.suggestions) {
       const isEmpty = value.suggestions?.length === 0;
-
       return (
         <>
           {isEmpty ? (
-            <p>No result found.</p>
+            <p className={styles.bubbleInfo}>No result found.</p>
           ) : (
             value.suggestions &&
             value.suggestions.map((city) => {
@@ -111,10 +121,11 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
                 <p
                   key={"suggestedCity_" + city.name}
                   onClick={() => {
-                    setDestination(city.name, destinations.indexOf(value));
-                    setDestinationSuggestions(
-                      undefined,
-                      destinations.indexOf(value)
+                    setDestination(
+                      city.name,
+                      destinations.indexOf(value),
+                      "name",
+                      true
                     );
                   }}
                   className={styles.suggestedCity}
@@ -127,32 +138,33 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
         </>
       );
     } else {
-      return undefined;
+      return <p className={styles.bubbleInfo}>Loading...</p>;
     }
   };
 
   return (
     <div className={styles.TripPlanner}>
       <div className={styles.dotArea}>
-        {[...Array(destinations.length - 1)].map((e, i) => (
-          <React.Fragment key={"dotsOf" + i}>
-            <img
-              key={"dotsOf" + i}
-              className={styles.dot}
-              alt="dot"
-              src={Dot}
-            ></img>
-            <img
-              key={"lineOf" + i}
-              className={styles.dot}
-              alt="line"
-              src={Line}
-            ></img>
-          </React.Fragment>
-        ))}
+        {destinations.length &&
+          [...Array(destinations.length - 1)].map((e, i) => (
+            <React.Fragment key={"dotsOf" + i}>
+              <img
+                key={"dotsOf" + i}
+                className={styles.dot}
+                alt="dot"
+                src={Dot}
+              ></img>
+              <img
+                key={"lineOf" + i}
+                className={styles.dot}
+                alt="line"
+                src={Line}
+              ></img>
+            </React.Fragment>
+          ))}
 
         <img className={styles.dot} alt="dot" src={LocationTag}></img>
-        <img className={styles.plus} alt="dot" src={Plus}></img>
+        {destinations.length < 5 && <img className={styles.plus} alt="dot" src={Plus}></img>}
       </div>
       <div className={styles.inputArea}>
         {destinations.map((destination, idx) => (
@@ -160,7 +172,19 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
             <Input
               onBlur={() => checkDestination(destination, idx)}
               onChange={(e) => {
-                setDestination(upperCaseFirst(e.target.value), idx);
+                let previousValue = destination.name;
+                setDestination(
+                  upperCaseFirst(e.target.value),
+                  idx,
+                  "name",
+                  false
+                );
+                if(e.target.value.toLocaleLowerCase() !== previousValue && destination.isValid) {
+                  setDestinationValidity(
+                    false,
+                    idx,
+                  );
+                }
                 handleDestinationSuggestions(idx);
               }}
               bubbleContent={handleBubbleContent(destination)}
@@ -185,12 +209,13 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
             />
           </div>
         ))}
-        <Link
+        {destinations.length < 5 && <Link
           onClick={() => {
             addDestination();
           }}
           label={"Add destination"}
-        />
+        />}
+        
       </div>
     </div>
   );

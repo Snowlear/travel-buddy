@@ -153,7 +153,15 @@ const ResultsPage: React.FC = () => {
         <p>Your search is invalid.</p>
       )}
       <div className={styles.controlGroup}>
-        <Button onClick={() => navigate(`../`)}>Back</Button>
+        <Button
+          onClick={() =>
+            navigate(
+              `../?passengerCount=${passengerCount}&tripDate=${tripDate}&tripDestinations=${tripDestinations}`
+            )
+          }
+        >
+          Back
+        </Button>
       </div>
     </div>
   );

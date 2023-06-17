@@ -1,46 +1,36 @@
-# Getting Started with Create React App
+# Travel Buddy
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Travel Buddy is an app that allows users to perform searches to know the distance of a route that may consist of 2 or more cities, to enable them to plan their travel.
 
-## Available Scripts
+## Getting Started
 
-In the project directory, you can run:
+- npm install to install the dependencies.
+- npm start to start project in development mode.
+- npm build to have a build.
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Search form with fields for city of origin, intermediate cities, city of destination, date of trip, and number of passengers
+- Searchable dropdowns for cities with asynchronous loading and search
+- Ability to add/remove multiple intermediate cities as destinations
+- Form validation with error messages and disabled submit button
+- Deep-linking for pre-filled form data from URL parameters
+- Search results page displaying filled fields and calculated distances between subsequent cities and total distance
+- Asynchronous distance calculation with loading indication and error handling
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Test Paths;
 
-### `npm test`
+#### Main Page
+http://localhost:3000/?passengerCount=1&tripDate=20-06-2023&tripDestinations=[%22Montpellier%22,%22Paris%22,%22Aix-en-Provence%22]
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+#### Results Page
+http://localhost:3000/results?passengerCount=1&tripDate=20-06-2023&tripDestinations=[%22Montpellier%22,%22Paris%22,%22Aix-en-Provence%22]
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Technical Details
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The app is implemented as a SPA (single page application) using React and TypeScript.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The code above is a fake backend that simulates the delay of requesting cities and calculating distances. The list of cities is hardcoded and the delay is simulated. The fake backend has several functions: searchCities receives a keyword and returns a list of matching cities, isValidCity checks if the input city name is valid, calculateDistances receives a list of cities and calculates the distances between them, and getCities receives a list of city names and returns the corresponding city objects. The delay is simulated using a constant DELAY value in milliseconds.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+When a user attempts to find cities using the phrase "fail", the mocked API will fail to return results to demonstrate error handling abilities. When "Dijon" city is involved in the distance calculation, it will fail to demonstrate error handling abilities.
