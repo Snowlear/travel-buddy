@@ -38,12 +38,6 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
     setDestinations(currentDestinations);
   };
 
-  const setDestinationIsSuggestedSelected = (input: boolean, index: number) => {
-    let currentDestinations = [...destinations];
-    currentDestinations[index].isSuggestedSelected = input;
-    setDestinations(currentDestinations);
-  };
-
   const addDestination = () => {
     setDestinations([...destinations, { ...exampleDestinationSelection }]);
   };

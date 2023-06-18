@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef, useState } from "react";
+import React, { useReducer, useState } from "react";
 import styles from "./DatePicker.module.css";
 import Input from "../../atoms/Input/Input";
 import RightArrow from "../../../assets/images/svgs/rightArrow.svg";
