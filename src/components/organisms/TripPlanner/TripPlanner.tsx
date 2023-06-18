@@ -188,7 +188,7 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
                 }
                 handleDestinationSuggestions(idx);
               }}
-              bubbleContent={handleBubbleContent(destination)}
+              bubbleContent={destination.name.length > 0 && handleBubbleContent(destination)}
               onClear={() => {
                 setDestination("", idx);
                 checkDestination(destination, idx);

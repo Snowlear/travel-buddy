@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./Input.module.css";
 import classnames from "classnames";
 import Plus from "../../../assets/images/svgs/mini_plus.svg";
@@ -15,6 +15,9 @@ interface InputProps {
   error?: string;
   className?: string;
   bubbleContent?: React.ReactNode | undefined;
+  hideClearButton?: boolean;
+  bubbleAdditionalStyle?: string;
+  inputStyle?: string;
   onFocus?: React.FocusEventHandler<HTMLInputElement>;
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
   onChange?: React.FocusEventHandler<HTMLInputElement>;
@@ -29,6 +32,8 @@ const Input: React.FC<InputProps> = ({
   error,
   className,
   bubbleContent,
+  bubbleAdditionalStyle,
+  inputStyle,
   onFocus,
   onBlur,
   onChange,
@@ -36,8 +41,8 @@ const Input: React.FC<InputProps> = ({
   onClear,
   onDestroy,
   type = "text",
+  hideClearButton = false,
 }) => {
-  
   const [isPopOpen, setIsPopOpen] = useState<boolean>(false);
   const inputWrapper = useRef<HTMLDivElement>(null);
   const handleOnBlur = (e: React.FocusEvent<HTMLInputElement, Element>) => {
@@ -74,10 +79,11 @@ const Input: React.FC<InputProps> = ({
             className={classnames(
               styles["inputTag_" + type],
               { [styles.invalidInput]: error },
-              styles.inputTag
+              styles.inputTag,
+              inputStyle
             )}
           />
-          {type === "text" && value.length > 0 && (
+          {type === "text" && value.length > 0 && !hideClearButton && (
             <img
               onClick={() => onClear && onClear()}
               className={styles.clearButton}
@@ -85,10 +91,9 @@ const Input: React.FC<InputProps> = ({
               src={X}
             ></img>
           )}
-          {value.length > 0 &&
-            bubbleContent &&
-            isPopOpen &&
-            type === "text" && <Bubble>{bubbleContent}</Bubble>}
+          {bubbleContent && isPopOpen && type === "text" && (
+            <Bubble className={bubbleAdditionalStyle}>{bubbleContent}</Bubble>
+          )}
         </div>
         {onDestroy && (
           <img

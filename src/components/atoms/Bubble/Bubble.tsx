@@ -4,15 +4,16 @@ import classnames from "classnames";
 
 interface BubbleProps {
   children: React.ReactNode;
-  disabled?: boolean;
   direction?: "up" | "right";
   isRelative?: boolean;
+  className?: string;
 }
 
 const Bubble: React.FC<BubbleProps> = ({
   children,
   direction = "up",
   isRelative = false,
+  className,
 }) => {
   return (
     <div
@@ -20,7 +21,8 @@ const Bubble: React.FC<BubbleProps> = ({
       className={classnames(
         { [styles.relativeView]: isRelative },
         styles.bubble,
-        styles[direction]
+        styles[direction],
+        className
       )}
     >
       {children}

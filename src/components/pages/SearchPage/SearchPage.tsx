@@ -10,6 +10,7 @@ import {
 import { isDMY, isYMD, toDMYOrder, toYMDOrder } from "../../../utils/date";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCitiesContext } from "../../../context/CitiesContext";
+import DatePicker from "../../molecules/DatePicker/DatePicker";
 
 const SearchPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -24,9 +25,9 @@ const SearchPage: React.FC = () => {
   const navigate = useNavigate();
   const handleInitialDate = (input: string) => {
     if (isYMD(input)) {
-      return input;
+      return toDMYOrder(input);
     } else if (isDMY(input)) {
-      return toYMDOrder(input);
+      return input;
     }
     return "";
   };
@@ -72,15 +73,15 @@ const SearchPage: React.FC = () => {
     isValidCities(destinations.map((destination) => destination.name)).then((validityArray) => {
       currentDestinations.forEach((item, idx) => {
         item.isValid = validityArray[idx];
-        item.error = validityArray[idx] ? undefined : "Invalid city"
+        if(item.name.trim().length > 0){
+          item.error = validityArray[idx] ? undefined : "Invalid city"
+        }
       });
       setDestinations(currentDestinations);
     });
   }, []);
 
   useEffect(() => {
-    // debouncing query update
-    const timeoutId = setTimeout(() => {
       navigate(
         `?passengerCount=${passengerCount}&tripDate=${toDMYOrder(
           date
@@ -88,8 +89,6 @@ const SearchPage: React.FC = () => {
           destinations.map((item) => item.name)
         )}`
       );
-    }, 100);
-    return () => clearTimeout(timeoutId);
   }, [navigate, passengerCount, date, destinations]);
 
   return (
@@ -110,22 +109,14 @@ const SearchPage: React.FC = () => {
             onChange={(e) => setPassengerCount(Number(e.target.value))}
             label={"Passenger"}
           />
-          <Input
-            className={styles.datePicker}
-            value={date}
-            type="date"
-            onChange={(e) => setDate(e.target.value)}
-            label={"Date"}
-          />
+          <DatePicker onChange={(newDate) => setDate(newDate)} value={date} label="Date"/>
         </div>
       </div>
       <div className={styles.controlGroup}>
         <Button
           onClick={() =>
             navigate(
-              `results?passengerCount=${passengerCount}&tripDate=${toDMYOrder(
-                date
-              )}&tripDestinations=${JSON.stringify(
+              `results?passengerCount=${passengerCount}&tripDate=${date}&tripDestinations=${JSON.stringify(
                 destinations.map((item) => item.name)
               )}`
             )

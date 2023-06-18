@@ -97,3 +97,7 @@
 .removeButton:hover {
   cursor: pointer;
 }
+
+.arrows {
+  cursor: pointer;
+}
