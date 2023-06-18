@@ -96,16 +96,18 @@ const DatePicker: React.FC<DatePickerProps> = ({ label, value, onChange }) => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let newValue = event.target.value.replace(/[^0-9]/g, "");
     onChange(newValue);
-};
+  };
 
-const handleDateChange = (event: React.MouseEvent<HTMLParagraphElement, MouseEvent>, day: number) => {
-  onChange(handleDateFormat(day, selectedMonth, selectedYear));
-  setShowBubble(false);
-};
-
+  const handleDateChange = (
+    event: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
+    day: number
+  ) => {
+    onChange(handleDateFormat(day, selectedMonth, selectedYear));
+    setShowBubble(false);
+  };
 
   const bubbleContent = () => {
-    if(!showBubble) {
+    if (!showBubble) {
       return;
     }
     let years = [];
@@ -168,15 +170,33 @@ const handleDateChange = (event: React.MouseEvent<HTMLParagraphElement, MouseEve
           <div className={styles.daysContainer}>
             {dayOptions &&
               dayOptions.prevMonthDays.map((day) => (
-                <p key={"p_"+day} className={classnames(styles.day, styles.otherDay)}>{day}</p>
+                <p
+                  key={"p_" + day}
+                  className={classnames(styles.day, styles.otherDay)}
+                >
+                  {day}
+                </p>
               ))}
             {dayOptions &&
               dayOptions.currentMonthDays.map((day) => (
-                <p key={"c_"+day} className={classnames(styles.cDay, styles.day)} onClick={(e) => {handleDateChange(e, day)}}>{day}</p>
+                <p
+                  key={"c_" + day}
+                  className={classnames(styles.cDay, styles.day)}
+                  onClick={(e) => {
+                    handleDateChange(e, day);
+                  }}
+                >
+                  {day}
+                </p>
               ))}
             {dayOptions &&
               dayOptions.nextMonthDays.map((day) => (
-                <p key={"n_"+day} className={classnames(styles.day, styles.otherDay)}>{day}</p>
+                <p
+                  key={"n_" + day}
+                  className={classnames(styles.day, styles.otherDay)}
+                >
+                  {day}
+                </p>
               ))}
           </div>
         </div>

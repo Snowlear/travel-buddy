@@ -13,7 +13,7 @@ interface CitiesContextType {
   searchCities: (keyword: string) => Promise<City[]>;
   calculateDistances: (cities: City[]) => Promise<number[]>;
   isValidCity: (cityName: string) => Promise<boolean>;
-  isValidCities:  (citiesArray: string[]) => Promise<boolean[]>;
+  isValidCities: (citiesArray: string[]) => Promise<boolean[]>;
   getCities: (cityNames: string[]) => Promise<City[]>;
 }
 

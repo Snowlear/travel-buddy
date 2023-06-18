@@ -26,7 +26,9 @@ const Select: React.FC<SelectProps> = ({
         onChange={onChange}
       >
         {options.map((item) => (
-          <option key={item} value={item}>{item}</option>
+          <option key={item} value={item}>
+            {item}
+          </option>
         ))}
       </select>
     </div>

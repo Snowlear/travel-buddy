@@ -38,14 +38,14 @@ const SearchPage: React.FC = () => {
     try {
       if (paramDestinationsRaw) {
         const paramDestinations: string[] = JSON.parse(paramDestinationsRaw);
-        if(paramDestinations.length < 2) {
+        if (paramDestinations.length < 2) {
           return intitialEmptyDestSelection;
         }
         return paramDestinations.map((item): DestinationSelection => {
-          if(typeof item === 'number'){
+          if (typeof item === "number") {
             return { name: "", isValid: false };
           }
-          return { name: item.replace(/\d+/g, ''), isValid: false };
+          return { name: item.replace(/\d+/g, ""), isValid: false };
         });
       } else {
         return intitialEmptyDestSelection;
@@ -70,25 +70,27 @@ const SearchPage: React.FC = () => {
 
   useEffect(() => {
     let currentDestinations = [...destinations];
-    isValidCities(destinations.map((destination) => destination.name)).then((validityArray) => {
-      currentDestinations.forEach((item, idx) => {
-        item.isValid = validityArray[idx];
-        if(item.name.trim().length > 0){
-          item.error = validityArray[idx] ? undefined : "Invalid city"
-        }
-      });
-      setDestinations(currentDestinations);
-    });
+    isValidCities(destinations.map((destination) => destination.name)).then(
+      (validityArray) => {
+        currentDestinations.forEach((item, idx) => {
+          item.isValid = validityArray[idx];
+          if (item.name.trim().length > 0) {
+            item.error = validityArray[idx] ? undefined : "Invalid city";
+          }
+        });
+        setDestinations(currentDestinations);
+      }
+    );
   }, [destinations, isValidCities]);
 
   useEffect(() => {
-      navigate(
-        `?passengerCount=${passengerCount}&tripDate=${toDMYOrder(
-          date
-        )}&tripDestinations=${JSON.stringify(
-          destinations.map((item) => item.name)
-        )}`
-      );
+    navigate(
+      `?passengerCount=${passengerCount}&tripDate=${toDMYOrder(
+        date
+      )}&tripDestinations=${JSON.stringify(
+        destinations.map((item) => item.name)
+      )}`
+    );
   }, [navigate, passengerCount, date, destinations]);
 
   return (
@@ -109,7 +111,11 @@ const SearchPage: React.FC = () => {
             onChange={(e) => setPassengerCount(Number(e.target.value))}
             label={"Passenger"}
           />
-          <DatePicker onChange={(newDate) => setDate(newDate)} value={date} label="Date"/>
+          <DatePicker
+            onChange={(newDate) => setDate(newDate)}
+            value={date}
+            label="Date"
+          />
         </div>
       </div>
       <div className={styles.controlGroup}>

@@ -15,66 +15,59 @@ interface TripResultViewProps {
   tripDate: string | null;
 }
 
-const TripResultView: React.FC<TripResultViewProps> = ({ distancesData, destinations, passengerCount, tripDate }) => {
+const TripResultView: React.FC<TripResultViewProps> = ({
+  distancesData,
+  destinations,
+  passengerCount,
+  tripDate,
+}) => {
   return (
     <>
-              <div className={classnames(styles.pathWrapper, styles.blueText)}>
-                <div className={styles.distancesBox}>
-                  {distancesData?.distanceBetween?.map((distance) => (
-                    <ArrowBubble
-                      key={"dist" + distance}
-                      isRelative
-                      direction="right"
-                    >
-                      <p className={styles.bubbleText}>
-                        {roundNumber(distance, 2)} km
-                      </p>
-                    </ArrowBubble>
-                  ))}
-                </div>
-                <div className={styles.dotContainer}>
-                  {destinations?.map((x, idx) => {
-                    if (idx === destinations.length - 1) {
-                      return (
-                        <img
-                          key="locationTag"
-                          className={styles.dot}
-                          alt="dot"
-                          src={LocationTag}
-                        ></img>
-                      );
-                    }
-                    return (
-                      <img
-                        alt="3dots"
-                        key={"dotsOf" + idx}
-                        src={ThreeDots}
-                      ></img>
-                    );
-                  })}
-                </div>
-                <div className={styles.citiesContainer}>
-                  {destinations?.map((x) => (
-                    <p key={"city_" + x}>{x}</p>
-                  ))}
-                </div>
-              </div>
-              <p className={styles.text}>
-                <span className={classnames(styles.boldText, styles.blueText)}>
-                  {roundNumber(distancesData?.totalDistance!, 2)} km
-                </span>{" "}
-                is total distance
-              </p>
-              <p className={styles.text}>
-                <span className={classnames(styles.boldText, styles.blueText)}>
-                  {passengerCount}
-                </span>{" "}
-                passengers
-              </p>
-              <p className={classnames(styles.boldText, styles.blueText)}>
-                {tripDate && formatDate(tripDate)}
-              </p>
-            </>
+      <div className={classnames(styles.pathWrapper, styles.blueText)}>
+        <div className={styles.distancesBox}>
+          {distancesData?.distanceBetween?.map((distance) => (
+            <ArrowBubble key={"dist" + distance} isRelative direction="right">
+              <p className={styles.bubbleText}>{roundNumber(distance, 2)} km</p>
+            </ArrowBubble>
+          ))}
+        </div>
+        <div className={styles.dotContainer}>
+          {destinations?.map((x, idx) => {
+            if (idx === destinations.length - 1) {
+              return (
+                <img
+                  key="locationTag"
+                  className={styles.dot}
+                  alt="dot"
+                  src={LocationTag}
+                ></img>
+              );
+            }
+            return <img alt="3dots" key={"dotsOf" + idx} src={ThreeDots}></img>;
+          })}
+        </div>
+        <div className={styles.citiesContainer}>
+          {destinations?.map((x) => (
+            <p key={"city_" + x}>{x}</p>
+          ))}
+        </div>
+      </div>
+      <p className={styles.text}>
+        <span className={classnames(styles.boldText, styles.blueText)}>
+          {roundNumber(distancesData?.totalDistance!, 2)} km
+        </span>{" "}
+        is total distance
+      </p>
+      <p className={styles.text}>
+        <span className={classnames(styles.boldText, styles.blueText)}>
+          {passengerCount}
+        </span>{" "}
+        passengers
+      </p>
+      <p className={classnames(styles.boldText, styles.blueText)}>
+        {tripDate && formatDate(tripDate)}
+      </p>
+    </>
   );
 };
 

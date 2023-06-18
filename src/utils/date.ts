@@ -53,31 +53,47 @@ export const getMonthDays = (month: number, year: number): PossibleDatesI => {
   let nextMonthDays = [];
 
   let date = new Date(year, month - 1, 1);
-  let lastDayOfPrevMonth = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
+  let lastDayOfPrevMonth = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    0
+  ).getDate();
   let firstDayOfWeek = date.getDay() === 0 ? 6 : date.getDay() - 1;
   for (let i = firstDayOfWeek; i > 0; i--) {
-      prevMonthDays.push(lastDayOfPrevMonth - i + 1);
+    prevMonthDays.push(lastDayOfPrevMonth - i + 1);
   }
 
-  let lastDayOfCurrentMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+  let lastDayOfCurrentMonth = new Date(
+    date.getFullYear(),
+    date.getMonth() + 1,
+    0
+  ).getDate();
   for (let i = 1; i <= lastDayOfCurrentMonth; i++) {
-      currentMonthDays.push(i);
+    currentMonthDays.push(i);
   }
 
-  let lastDayOfWeek = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDay();
+  let lastDayOfWeek = new Date(
+    date.getFullYear(),
+    date.getMonth() + 1,
+    0
+  ).getDay();
   lastDayOfWeek = lastDayOfWeek === 0 ? 6 : lastDayOfWeek - 1;
   for (let i = 1; i <= 6 - lastDayOfWeek; i++) {
-      nextMonthDays.push(i);
+    nextMonthDays.push(i);
   }
 
   return {
-      prevMonthDays: prevMonthDays,
-      currentMonthDays: currentMonthDays,
-      nextMonthDays: nextMonthDays,
+    prevMonthDays: prevMonthDays,
+    currentMonthDays: currentMonthDays,
+    nextMonthDays: nextMonthDays,
   };
 };
 
-export const handleDateFormat = (day: number, selectedMonth: string, selectedYear: string) => {
+export const handleDateFormat = (
+  day: number,
+  selectedMonth: string,
+  selectedYear: string
+) => {
   let monthNumber = getMonthNumber(selectedMonth);
   let formattedDay = day.toString().padStart(2, "0");
   let formattedMonth = monthNumber.toString().padStart(2, "0");

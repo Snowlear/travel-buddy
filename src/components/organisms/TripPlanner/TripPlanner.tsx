@@ -65,7 +65,8 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
 
   const checkDestination = (input: DestinationSelection, index: number) => {
     if (input.name.trim().length > 0) {
-        searchCities(input.name).then((result) => {
+      searchCities(input.name)
+        .then((result) => {
           if (result.some((city) => city.name === input.name)) {
             setDestination("", index, "error");
             setDestinationValidity(true, index);
@@ -73,9 +74,15 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
             setDestination("Its not a valid city", index, "error");
             setDestinationValidity(false, index);
           }
-        }).catch(() => {setDestination("Server failed to validate this city.", index, "error");
-        setDestinationValidity(false, index);});
-      
+        })
+        .catch(() => {
+          setDestination(
+            "Server failed to validate this city.",
+            index,
+            "error"
+          );
+          setDestinationValidity(false, index);
+        });
     } else {
       setDestination("This field is mandatory.", index, "error");
       setDestinationValidity(false, index);
@@ -90,10 +97,11 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
 
   const handleDestinationSuggestions = (idx: number) => {
     if (destinations[idx].name.trim().length > 0) {
-       searchCities(destinations[idx].name).then((result) => {
-        setDestinationSuggestions(result, idx);
-      }).catch((x) => setDestinationSuggestions("error", idx));
-      
+      searchCities(destinations[idx].name)
+        .then((result) => {
+          setDestinationSuggestions(result, idx);
+        })
+        .catch((x) => setDestinationSuggestions("error", idx));
     } else {
       setDestinationSuggestions(undefined, idx);
     }
@@ -102,7 +110,11 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
   const handleBubbleContent = (
     value: DestinationSelection
   ): React.ReactNode | undefined => {
-    if (value.isSuggestedSelected || value.isValid || value.name.trim().length < 1) {
+    if (
+      value.isSuggestedSelected ||
+      value.isValid ||
+      value.name.trim().length < 1
+    ) {
       return;
     }
     if (value.suggestions) {
@@ -112,25 +124,29 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
           {isEmpty ? (
             <p className={styles.bubbleInfo}>No result found.</p>
           ) : (
-            value.suggestions && (value.suggestions !== "error" ?
-            value.suggestions.map((city) => {
-              return (
-                <p
-                  key={"suggestedCity_" + city.name}
-                  onClick={() => {
-                    setDestination(
-                      city.name,
-                      destinations.indexOf(value),
-                      "name",
-                      true
-                    );
-                  }}
-                  className={styles.suggestedCity}
-                >
-                  {city.name}
-                </p>
-              );
-            }) : <p className={styles.bubbleInfo}>Server error.</p>)
+            value.suggestions &&
+            (value.suggestions !== "error" ? (
+              value.suggestions.map((city) => {
+                return (
+                  <p
+                    key={"suggestedCity_" + city.name}
+                    onClick={() => {
+                      setDestination(
+                        city.name,
+                        destinations.indexOf(value),
+                        "name",
+                        true
+                      );
+                    }}
+                    className={styles.suggestedCity}
+                  >
+                    {city.name}
+                  </p>
+                );
+              })
+            ) : (
+              <p className={styles.bubbleInfo}>Server error.</p>
+            ))
           )}
         </>
       );
@@ -161,7 +177,9 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
           ))}
 
         <img className={styles.dot} alt="dot" src={LocationTag}></img>
-        {destinations.length < 5 && <img className={styles.plus} alt="dot" src={Plus}></img>}
+        {destinations.length < 5 && (
+          <img className={styles.plus} alt="dot" src={Plus}></img>
+        )}
       </div>
       <div className={styles.inputArea}>
         {destinations.map((destination, idx) => (
@@ -170,22 +188,19 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
               onBlur={() => checkDestination(destination, idx)}
               onChange={(e) => {
                 let previousValue = destination.name;
-                let newValue = e.target.value.replace(/\d+/g, '');
-                setDestination(
-                  upperCaseFirst(newValue),
-                  idx,
-                  "name",
-                  false
-                );
-                if(newValue.toLocaleLowerCase() !== previousValue && destination.isValid) {
-                  setDestinationValidity(
-                    false,
-                    idx,
-                  );
+                let newValue = e.target.value.replace(/\d+/g, "");
+                setDestination(upperCaseFirst(newValue), idx, "name", false);
+                if (
+                  newValue.toLocaleLowerCase() !== previousValue &&
+                  destination.isValid
+                ) {
+                  setDestinationValidity(false, idx);
                 }
                 handleDestinationSuggestions(idx);
               }}
-              bubbleContent={destination.name.length > 0 && handleBubbleContent(destination)}
+              bubbleContent={
+                destination.name.length > 0 && handleBubbleContent(destination)
+              }
               onClear={() => {
                 setDestination("", idx);
                 checkDestination(destination, idx);
@@ -207,13 +222,14 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
             />
           </div>
         ))}
-        {destinations.length < 5 && <Link
-          onClick={() => {
-            addDestination();
-          }}
-          label={"Add destination"}
-        />}
-        
+        {destinations.length < 5 && (
+          <Link
+            onClick={() => {
+              addDestination();
+            }}
+            label={"Add destination"}
+          />
+        )}
       </div>
     </div>
   );

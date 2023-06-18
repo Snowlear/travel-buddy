@@ -82,7 +82,12 @@ const ResultsPage: React.FC = () => {
           error ? (
             <p>{error}</p>
           ) : (
-            <TripResultView destinations={destinations} distancesData={distancesData} passengerCount={passengerCount} tripDate={tripDate}/>
+            <TripResultView
+              destinations={destinations}
+              distancesData={distancesData}
+              passengerCount={passengerCount}
+              tripDate={tripDate}
+            />
           )
         ) : (
           <p>Loading...</p>
