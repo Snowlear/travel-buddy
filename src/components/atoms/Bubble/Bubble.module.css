@@ -38,3 +38,13 @@
 .relativeView {
   position: relative;
 }
+
+@media only screen and (max-width: 600px) {
+  .up:before {
+    left: unset;
+    right: 10px;
+  }
+  .bubble {
+    right: 0px;
+  }
+}

@@ -75,7 +75,6 @@ const DatePicker: React.FC<DatePickerProps> = ({ label, value, onChange }) => {
 
   const handleArrowClick = (direction: "+" | "-") => {
     let currentMonthIndex = getMonthNumber(selectedMonth) - 1;
-    console.log(currentMonthIndex);
     let newMonthIndex;
     let newYear = Number(selectedYear);
     if (direction === "+") {

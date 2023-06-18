@@ -28,3 +28,16 @@
 .datePicker {
   width: 140px;
 }
+
+@media only screen and (max-width: 600px) {
+  .formItems {
+    flex-direction: column;
+    align-items: center;
+    gap: 0px;
+  }
+
+  .rightInputs {
+    display: flex;
+    gap: 10px;
+  }
+}

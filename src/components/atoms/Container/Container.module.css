@@ -11,3 +11,9 @@
   border-radius: 16px;
   padding: 38px;
 }
+
+@media only screen and (max-width: 600px) {
+  .containerWrapper {
+    padding: 10px;
+  }
+}
