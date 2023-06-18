@@ -2,11 +2,25 @@
 
 Travel Buddy is an app that allows users to perform searches to know the distance of a route that may consist of 2 or more cities, to enable them to plan their travel.
 
+## Live App
+
+Application is deployed on;
+
+https://travel-buddy2-025a998603c3.herokuapp.com/
+
 ## Getting Started
 
 - npm install to install the dependencies.
 - npm start to start project in development mode.
 - npm build to have a build.
+
+### Test
+
+Project contains unit tests.
+
+In order to run them;
+
+- npm test
 
 ## Features
 

@@ -8,7 +8,7 @@ interface MainFrameTemplateProps {
 
 const MainFrameTemplate: React.FC<MainFrameTemplateProps> = ({ children }) => {
   return (
-    <div className={styles.mainTemplateWrapper}>
+    <div data-testid="main" className={styles.mainTemplateWrapper}>
       <Container>{children}</Container>
     </div>
   );

@@ -79,7 +79,7 @@ const SearchPage: React.FC = () => {
       });
       setDestinations(currentDestinations);
     });
-  }, []);
+  }, [destinations, isValidCities]);
 
   useEffect(() => {
       navigate(
