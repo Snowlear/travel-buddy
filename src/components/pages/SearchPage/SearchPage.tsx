@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./SearchPage.module.css";
 import Button from "../../atoms/Button/Button";
-import TripPlanner from "../../molecules/TripPlanner/TripPlanner";
+import TripPlanner from "../../organisms/TripPlanner/TripPlanner";
 import Input from "../../atoms/Input/Input";
 import {
   DestinationSelection,
@@ -9,11 +9,11 @@ import {
 } from "../../../types/DestinationSelection";
 import { isDMY, isYMD, toDMYOrder, toYMDOrder } from "../../../utils/date";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { isObjectOfArraysOfStrings } from "../../../utils/array";
 import { useCitiesContext } from "../../../context/CitiesContext";
 
 const SearchPage: React.FC = () => {
   const [searchParams] = useSearchParams();
+  const { isValidCities } = useCitiesContext();
   const intitialEmptyDestSelection = [
     { ...exampleDestinationSelection },
     { ...exampleDestinationSelection },
@@ -41,7 +41,10 @@ const SearchPage: React.FC = () => {
           return intitialEmptyDestSelection;
         }
         return paramDestinations.map((item): DestinationSelection => {
-          return { name: item, isValid: false };
+          if(typeof item === 'number'){
+            return { name: "", isValid: false };
+          }
+          return { name: item.replace(/\d+/g, ''), isValid: false };
         });
       } else {
         return intitialEmptyDestSelection;
@@ -63,6 +66,17 @@ const SearchPage: React.FC = () => {
       isDestinationsValid && passengerCount > 0 && date.length > 0
     );
   }, [date.length, isDestinationsValid, passengerCount]);
+
+  useEffect(() => {
+    let currentDestinations = [...destinations];
+    isValidCities(destinations.map((destination) => destination.name)).then((validityArray) => {
+      currentDestinations.forEach((item, idx) => {
+        item.isValid = validityArray[idx];
+        item.error = validityArray[idx] ? undefined : "Invalid city"
+      });
+      setDestinations(currentDestinations);
+    });
+  }, []);
 
   useEffect(() => {
     // debouncing query update

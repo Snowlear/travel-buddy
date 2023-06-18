@@ -4,6 +4,7 @@ import {
   searchCities,
   calculateDistances,
   isValidCity,
+  isValidCities,
   getCities,
 } from "../api/fakeApi";
 
@@ -11,7 +12,8 @@ interface CitiesContextType {
   cities: City[];
   searchCities: (keyword: string) => Promise<City[]>;
   calculateDistances: (cities: City[]) => Promise<number[]>;
-  isValidCity: (keyword: string) => Promise<boolean>;
+  isValidCity: (cityName: string) => Promise<boolean>;
+  isValidCities:  (citiesArray: string[]) => Promise<boolean[]>;
   getCities: (cityNames: string[]) => Promise<City[]>;
 }
 
@@ -25,6 +27,7 @@ const CitiesProvider: React.FC<CitiesProviderProps> = ({ children }) => {
     searchCities,
     calculateDistances,
     isValidCity,
+    isValidCities,
     getCities,
   };
 
@@ -40,6 +43,7 @@ const CitiesContext = React.createContext<CitiesContextType>({
   searchCities: async () => [],
   calculateDistances: async () => [],
   isValidCity: async () => false,
+  isValidCities: async () => [],
   getCities: async () => [],
 });
 

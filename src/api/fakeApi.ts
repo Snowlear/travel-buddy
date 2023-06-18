@@ -38,6 +38,11 @@ export const isValidCity = async (input: string) => {
   return CITIES.some((city) => city.name === input);
 };
 
+export const isValidCities = async (input: string[]) => {
+  await new Promise((resolve) => setTimeout(resolve, DELAY));
+  return input.map((cityName) => CITIES.some((city) => city.name === cityName));
+};
+
 export const calculateDistances = async (cities: City[]) => {
   await new Promise((resolve) => setTimeout(resolve, DELAY));
   const distances = [];

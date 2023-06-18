@@ -105,7 +105,7 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
   const handleBubbleContent = (
     value: DestinationSelection
   ): React.ReactNode | undefined => {
-    if (value.isSuggestedSelected || value.isValid) {
+    if (value.isSuggestedSelected || value.isValid || value.name.trim().length < 1) {
       return;
     }
     if (value.suggestions) {
@@ -173,13 +173,14 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
               onBlur={() => checkDestination(destination, idx)}
               onChange={(e) => {
                 let previousValue = destination.name;
+                let newValue = e.target.value.replace(/\d+/g, '');
                 setDestination(
-                  upperCaseFirst(e.target.value),
+                  upperCaseFirst(newValue),
                   idx,
                   "name",
                   false
                 );
-                if(e.target.value.toLocaleLowerCase() !== previousValue && destination.isValid) {
+                if(newValue.toLocaleLowerCase() !== previousValue && destination.isValid) {
                   setDestinationValidity(
                     false,
                     idx,
