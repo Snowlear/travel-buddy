@@ -55,7 +55,7 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
   };
 
   const setDestinationSuggestions = (
-    input: City[] | undefined,
+    input: City[] | undefined | "error",
     index: number
   ) => {
     let currentDestinations = [...destinations];
@@ -65,15 +65,17 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
 
   const checkDestination = (input: DestinationSelection, index: number) => {
     if (input.name.trim().length > 0) {
-      searchCities(input.name).then((result) => {
-        if (result.some((city) => city.name === input.name)) {
-          setDestination("", index, "error");
-          setDestinationValidity(true, index);
-        } else {
-          setDestination("Its not a valid city", index, "error");
-          setDestinationValidity(false, index);
-        }
-      });
+        searchCities(input.name).then((result) => {
+          if (result.some((city) => city.name === input.name)) {
+            setDestination("", index, "error");
+            setDestinationValidity(true, index);
+          } else {
+            setDestination("Its not a valid city", index, "error");
+            setDestinationValidity(false, index);
+          }
+        }).catch(() => {setDestination("Server failed to validate this city.", index, "error");
+        setDestinationValidity(false, index);});
+      
     } else {
       setDestination("This field is mandatory.", index, "error");
       setDestinationValidity(false, index);
@@ -88,9 +90,10 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
 
   const handleDestinationSuggestions = (idx: number) => {
     if (destinations[idx].name.trim().length > 0) {
-      searchCities(destinations[idx].name).then((result) => {
+       searchCities(destinations[idx].name).then((result) => {
         setDestinationSuggestions(result, idx);
-      });
+      }).catch((x) => setDestinationSuggestions("error", idx));
+      
     } else {
       setDestinationSuggestions(undefined, idx);
     }
@@ -109,7 +112,7 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
           {isEmpty ? (
             <p className={styles.bubbleInfo}>No result found.</p>
           ) : (
-            value.suggestions &&
+            value.suggestions && (value.suggestions !== "error" ?
             value.suggestions.map((city) => {
               return (
                 <p
@@ -127,7 +130,7 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
                   {city.name}
                 </p>
               );
-            })
+            }) : <p className={styles.bubbleInfo}>Server error.</p>)
           )}
         </>
       );

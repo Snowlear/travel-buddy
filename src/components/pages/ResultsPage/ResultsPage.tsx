@@ -64,7 +64,7 @@ const ResultsPage: React.FC = () => {
               setDistancesData(distanceData);
             })
             .catch(() => {
-              setError("Error occured while parsing your request.");
+              setError("Error occured while parsing city data.");
             })
             .finally(() => setIsLoaded(true));
         })

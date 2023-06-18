@@ -3,7 +3,7 @@ import { City } from "./City";
 export interface DestinationSelection {
   name: string;
   error?: string;
-  suggestions?: City[];
+  suggestions?: City[] | "error";
   isValid: boolean;
   isSuggestedSelected?: boolean;
 }

@@ -28,6 +28,10 @@ const DELAY = 1000; // simulate delay in milliseconds
 
 export const searchCities = async (keyword: string) => {
   await new Promise((resolve) => setTimeout(resolve, DELAY));
+  
+  if(keyword.toLocaleLowerCase() === "fail") {
+    throw new Error("Server encountered a problem.");
+  }
   return CITIES.filter((city) =>
     city.name.toLowerCase().includes(keyword.toLowerCase())
   );
@@ -35,6 +39,9 @@ export const searchCities = async (keyword: string) => {
 
 export const isValidCity = async (input: string) => {
   await new Promise((resolve) => setTimeout(resolve, DELAY));
+  if(input.toLocaleLowerCase() === "fail") {
+    throw new Error("Server encountered a problem.");
+  }
   return CITIES.some((city) => city.name === input);
 };
 
@@ -47,7 +54,12 @@ export const calculateDistances = async (cities: City[]) => {
   await new Promise((resolve) => setTimeout(resolve, DELAY));
   const distances = [];
   for (let i = 0; i < cities.length - 1; i++) {
-    distances.push(haversineDistance(cities[i], cities[i + 1]));
+    
+    if(cities[i].name === "Dijon" || cities[i+1].name === "Dijon") {
+      throw new Error("Server encountered a problem.");
+    } else {
+      distances.push(haversineDistance(cities[i], cities[i + 1]));
+    }
   }
   return distances;
 };

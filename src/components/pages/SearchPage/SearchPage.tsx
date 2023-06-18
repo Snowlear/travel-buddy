@@ -7,7 +7,7 @@ import {
   DestinationSelection,
   exampleDestinationSelection,
 } from "../../../types/DestinationSelection";
-import { isDMY, isYMD, toDMYOrder, toYMDOrder } from "../../../utils/date";
+import { isDMY, isYMD, toDMYOrder } from "../../../utils/date";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCitiesContext } from "../../../context/CitiesContext";
 import DatePicker from "../../molecules/DatePicker/DatePicker";
