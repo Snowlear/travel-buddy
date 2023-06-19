@@ -50,7 +50,7 @@ const Input: React.FC<InputProps> = ({
       inputWrapper.current &&
       !inputWrapper.current.contains(e.relatedTarget as Node)
     ) {
-      //setIsPopOpen(false);
+      setIsPopOpen(false);
     }
     onBlur && onBlur(e);
   };
